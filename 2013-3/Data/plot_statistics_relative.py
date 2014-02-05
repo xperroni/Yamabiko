@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from itertools import izip
+from os.path import join as joinpath
 from pprint import pprint
 from re import match
 
@@ -47,7 +48,8 @@ class dimension(object):
         values = self.data.setdefault(d, [])
         values.extend(relative(samples))
 
-    def plot(self, figure):
+    def plot(self):
+        figure = pyplot.figure()
         figure.text(0.4, 0.95, self.title, horizontalalignment='center', fontsize=24)
         figure.text(0.02, 0.47, 'd')
         figure.text(0.4, 0.02, 's')
@@ -73,13 +75,40 @@ class dimension(object):
         plot1.set_position([box.x0 * 0.9 - 0.05, box.y0 * 1.05 - 0.04, box.width * 0.79, box.height])
         plot2.set_position([box.x0 * 0.9 - 0.05, box.y0 * 1.05 - 0.04, box.width * 0.79, box.height])
 
-        #plot1.axis([min(x), max(x), self.ymin, self.ymax])
+        plot1.axis([min(x), max(x), self.ymin, self.ymax])
         plot2.axis([min(x), max(x), 0, max(n)])
 
         p1, = plot1.plot(x, y, 'b-')
         p2, = plot2.plot(x, n, 'g-')
 
         figure.legend([p1, p2], ['Average Difference (d)', 'Sample Size (n)'], loc=(0.78, 0.83))
+
+    def save(self, mode, folder):
+        figure = pyplot.figure()
+
+        data = self.data
+        x = []
+        y = []
+        n = []
+
+        for d in sorted(data.keys()):
+            samples = data[d]
+            m = mean(samples)
+
+            x.append(d)
+            y.append(m)
+            n.append(float(len(samples)))
+
+        plot1 = figure.add_subplot(1, 1, 1)
+        plot2 = plot1.twinx()
+
+        plot1.axis([min(x), max(x), self.ymin, self.ymax])
+        plot2.axis([min(x), max(x), 0, max(n)])
+
+        p1, = plot1.plot(x, y, '-', color='black')
+        p2, = plot2.plot(x, n, '-', color='gray')
+
+        figure.savefig(joinpath(folder, '%s-%s.svg' % (mode, self.title)), bbox_inches='tight')
 
 def read_header_forward(s, line):
     matched = match(place, line)
@@ -201,12 +230,14 @@ class statistics(object):
             state = state(self, line)
 
     def plot(self):
-        i = 1
         for d in self.dimensions:
-            d.plot(pyplot.figure(i))
-            i += 1
+            d.plot()
 
         pyplot.show()
+
+    def save(self, mode, folder):
+        for d in self.dimensions:
+            d.save(mode, folder)
 
 def statistics_forward():
     bands = [71, 142, 213, 284, 355, 426, 497, 568]
@@ -217,20 +248,23 @@ def statistics_forward():
 
 def statistics_sideways():
     bands = [71, 142, 213, 284, 355, 426, 497, 568]
-    plots = [('Width', -50, 50), ('Height', -50, 50), ('U', -250, 30), ('V', -250, 30)]
+    plots = [('Width', -3, 3), ('Height', -3, 3), ('U', -3, 3), ('V', -3, 3)]
     s = statistics(read_header_sideways, 'u', bands, band_u_read, band_u_check_sideways, *plots)
     s.load('sideways-2014-01-22-01.txt')
-    s.plot()
+    #s.plot()
+    s.save('sideways', '/home/erios/Roboken/Yamabiko/2013-3')
 
 def statistics_turning():
     bands = [71, 142, 213, 284, 355, 426, 497, 568]
-    plots = [('Width', -50, 50), ('Height', -50, 50), ('U', -600, 30), ('V', -600, 30)]
+    plots = [('Width', -3, 3), ('Height', -3, 3), ('U', -3, 3), ('V', -3, 3)]
     s = statistics(read_header_turning, 'u', bands, band_u_read, band_u_check_turning, *plots)
     s.load('turning-2014-01-22-01.txt')
-    s.plot()
+    #s.plot()
+    s.save('turning', '/home/erios/Roboken/Yamabiko/2013-3')
 
 def main():
     statistics_sideways()
+    statistics_turning()
 
 if __name__ == '__main__':
     main()
