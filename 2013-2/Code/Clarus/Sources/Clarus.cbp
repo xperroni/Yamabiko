@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Clarus" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../Build/Debug/libclarus" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../Build/Debug/Clarus/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../Build/Release/libclarus" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../Build/Release/Clarus/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-march=native" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="./" />
+			<Add directory="../" />
+		</Compiler>
+		<Unit filename="clarus/clarus.hpp" />
+		<Unit filename="clarus/core.hpp" />
+		<Unit filename="clarus/core/index.hpp" />
+		<Unit filename="clarus/core/list.hpp" />
+		<Unit filename="clarus/core/locker.cpp" />
+		<Unit filename="clarus/core/locker.hpp" />
+		<Unit filename="clarus/core/looper.cpp" />
+		<Unit filename="clarus/core/looper.hpp" />
+		<Unit filename="clarus/core/table.cpp" />
+		<Unit filename="clarus/core/table.hpp" />
+		<Unit filename="clarus/fit.hpp" />
+		<Unit filename="clarus/fit/ballot.hpp" />
+		<Unit filename="clarus/fit/line.cpp" />
+		<Unit filename="clarus/fit/line.hpp" />
+		<Unit filename="clarus/fit/ransac.hpp" />
+		<Unit filename="clarus/io.hpp" />
+		<Unit filename="clarus/io/camera.cpp" />
+		<Unit filename="clarus/io/camera.hpp" />
+		<Unit filename="clarus/io/command.cpp" />
+		<Unit filename="clarus/io/command.hpp" />
+		<Unit filename="clarus/io/console.cpp" />
+		<Unit filename="clarus/io/console.hpp" />
+		<Unit filename="clarus/io/gnuplot.cpp" />
+		<Unit filename="clarus/io/gnuplot.hpp" />
+		<Unit filename="clarus/io/viewer.cpp" />
+		<Unit filename="clarus/io/viewer.hpp" />
+		<Unit filename="clarus/vgram.hpp" />
+		<Unit filename="clarus/vgram/bitstring.hpp" />
+		<Unit filename="clarus/vgram/network.hpp" />
+		<Unit filename="clarus/vgram/neuron.hpp" />
+		<Unit filename="clarus/vision.hpp" />
+		<Unit filename="clarus/vision/bayer.cpp" />
+		<Unit filename="clarus/vision/bayer.hpp" />
+		<Unit filename="clarus/vision/depths.cpp" />
+		<Unit filename="clarus/vision/depths.hpp" />
+		<Unit filename="clarus/vision/dither.cpp" />
+		<Unit filename="clarus/vision/dither.hpp" />
+		<Unit filename="clarus/vision/filters.cpp" />
+		<Unit filename="clarus/vision/filters.hpp" />
+		<Unit filename="clarus/vision/fourier.cpp" />
+		<Unit filename="clarus/vision/fourier.hpp" />
+		<Unit filename="clarus/vision/sampler.cpp" />
+		<Unit filename="clarus/vision/sampler.hpp" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

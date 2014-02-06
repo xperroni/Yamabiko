@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Zeta" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../Build/Debug/zeta" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../Build/Debug/Zeta/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add directory="../../Clarus/Build/Debug" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="../Build/Release/zeta" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../Build/Release/Zeta/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-march=native" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add directory="../../Clarus/Build/Release" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="../../Clarus/Sources" />
+		</Compiler>
+		<Linker>
+			<Add option="-lclarus" />
+			<Add option="-lboost_system" />
+			<Add option="-lboost_filesystem" />
+			<Add option="-lopencv_core" />
+			<Add option="-lopencv_highgui" />
+			<Add option="-lopencv_imgproc" />
+			<Add option="-lopencv_video" />
+		</Linker>
+		<Unit filename="assembler.cpp" />
+		<Unit filename="assembler.hpp" />
+		<Unit filename="assembler_top10.cpp" />
+		<Unit filename="assembler_top10.hpp" />
+		<Unit filename="cases.cpp" />
+		<Unit filename="cases.hpp" />
+		<Unit filename="channels.cpp" />
+		<Unit filename="channels.hpp" />
+		<Unit filename="domain.hpp" />
+		<Unit filename="extractor.cpp" />
+		<Unit filename="extractor.hpp" />
+		<Unit filename="neurons.hpp" />
+		<Unit filename="output.cpp" />
+		<Unit filename="output.hpp" />
+		<Unit filename="parameters.cpp" />
+		<Unit filename="parameters.hpp" />
+		<Unit filename="sampler.hpp" />
+		<Unit filename="sampler_bayer.hpp" />
+		<Unit filename="sampler_dither.hpp" />
+		<Unit filename="zeta.cpp" />
+		<Unit filename="zeta.hpp" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
