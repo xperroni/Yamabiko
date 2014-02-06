@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Dejavu" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../Build/Debug/dejavu" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../Build/Debug/Dejavu/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add directory="../../Clarus/Build/Debug" />
+					<Add directory="../../Monmon/Build/Debug" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="../Build/Release/dejavu" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../Build/Release/Dejavu/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add directory="../../Clarus/Build/Release" />
+					<Add directory="../../Monmon/Build/Release" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="/usr/local/include" />
+			<Add directory="../../Clarus/Sources" />
+			<Add directory="../../Monmon/Sources" />
+		</Compiler>
+		<Linker>
+			<Add option="-lclarus" />
+			<Add option="-lboost_filesystem" />
+			<Add option="-lboost_system" />
+			<Add option="-lboost_thread" />
+			<Add option="-lopencv_core" />
+			<Add option="-lopencv_highgui" />
+			<Add option="-lopencv_imgproc" />
+			<Add option="-lopencv_nonfree" />
+			<Add option="-lopencv_photo" />
+			<Add option="-lopencv_video" />
+			<Add option="-Wl,--whole-archive -lpthread -Wl,--no-whole-archive" />
+			<Add directory="/usr/local/lib" />
+		</Linker>
+		<Unit filename="change.cpp" />
+		<Unit filename="change.hpp" />
+		<Unit filename="difference.cpp" />
+		<Unit filename="difference.hpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="mode.cpp" />
+		<Unit filename="mode.hpp" />
+		<Unit filename="movement.cpp" />
+		<Unit filename="movement.hpp" />
+		<Unit filename="navigator.cpp" />
+		<Unit filename="navigator.hpp" />
+		<Unit filename="parameters.cpp" />
+		<Unit filename="parameters.hpp" />
+		<Unit filename="scene.hpp" />
+		<Unit filename="scene_watershed.cpp" />
+		<Unit filename="scene_watershed.hpp" />
+		<Unit filename="sighting.cpp" />
+		<Unit filename="sighting.hpp" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
