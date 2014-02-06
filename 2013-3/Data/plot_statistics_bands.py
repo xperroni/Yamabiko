@@ -283,43 +283,43 @@ def statistics_forward_u():
     bands = [71, 142, 213, 284, 355, 426, 497, 568]
     plots = [('Width', 0, 70, 250), ('Height', 0, 70, 250), ('U', -120, 70, 250), ('V', -120, 70, 250)]
     s = statistics(read_header_forward, 'u', bands, band_u_read, band_u_check_forward, *plots)
-    s.load('/home/erios/Roboken/Yamabiko/2013-3/Data/forward-2014-01-22-01.txt')
+    s.load('forward-2014-01-22-01.txt')
     #s.plot()
-    s.save('straight', '/home/erios/Roboken/Yamabiko/2013-3')
+    s.save('straight', '..')
 
 def statistics_forward_v():
     bands = [260, 270, 280, 290, 300, 315, 335, 350]
     plots = [('Width', -1, 10), ('Height', -8, 14), ('U', -70, 70), ('V', -10, 30)]
     s = statistics(read_header_forward, bands, 'v', band_v_read, *plots)
-    s.load('/home/erios/Projects/Data/Landmarks/forward-2014-01-16-01.txt')
+    s.load('forward-2014-01-16-01.txt')
     s.plot()
 
 def statistics_sideways_u():
     bands = [71, 142, 213, 284, 355, 426, 497, 568]
     plots = [('Width', -50, 50, 200), ('Height', -50, 50, 200), ('U', -250, 30, 200), ('V', -250, 30, 200)]
     s = statistics(read_header_sideways, 'u', bands, band_u_read, band_u_check_sideways, *plots)
-    s.load('/home/erios/Roboken/Yamabiko/2013-3/Data/sideways-2014-01-22-01.txt')
+    s.load('sideways-2014-01-22-01.txt')
     #s.plot()
-    s.save('sideways', '/home/erios/Roboken/Yamabiko/2013-3')
+    s.save('sideways', '..')
 
 def statistics_sideways_v():
     bands = [260, 270, 280, 290, 300, 315, 335, 350]
     s = statistics(read_header_sideways, bands, 'v', band_v_read, ('Width', -3, 8), ('Height', -2, 16), ('U', -180, 0), ('V', -16, 35))
-    s.load('/home/erios/Projects/Data/Landmarks/sideways-2014-01-16-01.txt')
+    s.load('sideways-2014-01-16-01.txt')
     s.plot()
 
 def statistics_turning_u():
     bands = [71, 142, 213, 284, 355, 426, 497, 568]
     plots = [('Width', -50, 50, 1300), ('Height', -50, 50, 1300), ('U', -600, 30, 1300), ('V', -600, 30, 1300)]
     s = statistics(read_header_turning, 'u', bands, band_u_read, band_u_check_turning, *plots)
-    s.load('/home/erios/Roboken/Yamabiko/2013-3/Data/turning-2014-01-22-01.txt')
+    s.load('turning-2014-01-22-01.txt')
     #s.plot()
-    s.save('turning', '/home/erios/Roboken/Yamabiko/2013-3')
+    s.save('turning', '..')
 
 def statistics_turning_v():
     bands = [260, 270, 280, 290, 300, 315, 335, 350]
     s = statistics(read_header_turning, bands, 'v', band_v_read, ('Width', -20, 12), ('Height', -15, 20), ('U', -450, -50), ('V', -70, 120))
-    s.load('/home/erios/Projects/Data/Landmarks/turning-2014-01-16-01.txt')
+    s.load('turning-2014-01-16-01.txt')
     s.plot()
 
 def main():

@@ -267,7 +267,7 @@ def statistics_sideways():
     s = statistics(read_header_sideways, 'u', bands, band_u_read, band_u_check_sideways, *plots)
     s.load('sideways-2014-01-22-01.txt')
     #s.plot()
-    s.save('sideways', '/home/erios/Roboken/Yamabiko/2013-3')
+    s.save('sideways', '..')
 
 def statistics_turning():
     bands = [71, 142, 213, 284, 355, 426, 497, 568]
@@ -275,7 +275,7 @@ def statistics_turning():
     s = statistics(read_header_turning, 'u', bands, band_u_read, band_u_check_turning, *plots)
     s.load('turning-2014-01-22-01.txt')
     #s.plot()
-    s.save('turning', '/home/erios/Roboken/Yamabiko/2013-3')
+    s.save('turning', '..')
 
 def main():
     statistics_sideways()
