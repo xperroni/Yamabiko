@@ -65,10 +65,7 @@ class dimension(object):
 
     def plot(self):
         figure = pyplot.figure()
-        figure.text(0.4, 0.95, self.title, horizontalalignment='center', fontsize=24)
-        figure.text(0.02, 0.47, 'd')
-        figure.text(0.4, 0.02, 's')
-        figure.text(0.77, 0.47, 'n')
+        figure.text(0.5, 0.95, self.title, horizontalalignment='center', fontsize=24)
 
         data = self.data
         x = []
@@ -85,10 +82,6 @@ class dimension(object):
 
         plot1 = figure.add_subplot(1, 1, 1)
         plot2 = plot1.twinx()
-
-        box = plot1.get_position()
-        plot1.set_position([box.x0 * 0.9 - 0.05, box.y0 * 1.05 - 0.04, box.width * 0.79, box.height])
-        plot2.set_position([box.x0 * 0.9 - 0.05, box.y0 * 1.05 - 0.04, box.width * 0.79, box.height])
 
         plot1.axis([min(x), max(x), self.ymin, self.ymax])
         plot2.axis([min(x), max(x), 0, max(n)])
@@ -96,34 +89,10 @@ class dimension(object):
         p1, = plot1.plot(x, y, 'b-')
         p2, = plot2.plot(x, n, 'g-')
 
-        figure.legend([p1, p2], ['Average Difference (d)', 'Sample Size (n)'], loc=(0.78, 0.83))
+        return figure
 
     def save(self, mode, folder):
-        figure = pyplot.figure()
-
-        data = self.data
-        x = []
-        y = []
-        n = []
-
-        for d in sorted(data.keys()):
-            samples = data[d]
-            m = mean(samples)
-
-            x.append(d)
-            y.append(m)
-            n.append(float(len(samples)))
-
-        plot1 = figure.add_subplot(1, 1, 1)
-        plot2 = plot1.twinx()
-
-        plot1.axis([min(x), max(x), self.ymin, self.ymax])
-        plot2.axis([min(x), max(x), 0, max(n)])
-
-        p1, = plot1.plot(x, y, '-', color='black')
-        p2, = plot2.plot(x, n, '-', color='gray')
-
-        figure.savefig(joinpath(folder, '%s-%s.svg' % (mode, self.title)), bbox_inches='tight')
+        self.plot().savefig(joinpath(folder, '%s-%s.svg' % (mode, self.title)), bbox_inches='tight')
 
 def read_header_forward(s, line):
     matched = match(place, line)
@@ -263,7 +232,7 @@ def statistics_forward():
 
 def statistics_sideways():
     bands = [71, 142, 213, 284, 355, 426, 497, 568]
-    plots = [('Width', -3, 3), ('Height', -3, 3), ('U', -3, 3), ('V', -3, 3)]
+    plots = [('Width', -3, 3), ('Height', -3, 3), ('Relative Slide', -3, 3), ('V', -3, 3)]
     s = statistics(read_header_sideways, 'u', bands, band_u_read, band_u_check_sideways, *plots)
     s.load('sideways-2014-01-22-01.txt')
     #s.plot()
@@ -271,7 +240,7 @@ def statistics_sideways():
 
 def statistics_turning():
     bands = [71, 142, 213, 284, 355, 426, 497, 568]
-    plots = [('Width', -3, 3), ('Height', -3, 3), ('U', -3, 3), ('V', -3, 3)]
+    plots = [('Width', -3, 3), ('Height', -3, 3), ('Relative Slide', -3, 3), ('V', -3, 3)]
     s = statistics(read_header_turning, 'u', bands, band_u_read, band_u_check_turning, *plots)
     s.load('turning-2014-01-22-01.txt')
     #s.plot()
