@@ -4,7 +4,7 @@ BIB=references.bib
 BLW=$(NAME)\ BW.pdf
 CLS=jsproceedings.cls
 DVI=$(NAME).dvi
-IMG=methods.pdf divs.pdf vector.pdf slide_cc.pdf selection.pdf entrance_3l_turn.pdf car_park_3l_turn.pdf corridor_3d_turn.pdf entrance_3l_shift.pdf changes.pdf pedestrian.pdf environments.pdf shift_problem.pdf clutter.pdf car_park_3l_steer_left.pdf car_park_3l_steer_right.pdf entrance_3l_steer_right.pdf
+IMG=methods.pdf divs.pdf vector.pdf slide_cc.pdf selection.pdf entrance_3l_turn.pdf car_park_3l_turn.pdf corridor_3d_turn.pdf changes.pdf pedestrian.pdf environments.pdf clutter.pdf car_park_3l_steer_left.pdf car_park_3l_steer_right.pdf entrance_3l_steer_right.pdf
 PDF=$(NAME).pdf
 TEX=$(NAME).tex
 

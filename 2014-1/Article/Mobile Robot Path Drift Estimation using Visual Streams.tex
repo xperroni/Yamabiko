@@ -1,4 +1,6 @@
 \documentclass[twocolumn, 9pt,fleqn]{jsproceedings}
+\usepackage{float}
+%\usepackage[caption = false]{subfig}
 
 \interfootnotelinepenalty=10000
 
@@ -42,7 +44,7 @@ Early work by Ohno~\cite{OYA96} employed a procedure to extract vertical lines f
 \begin{table}[h!]
 \centering
 \includegraphics[width=\columnwidth]{methods.pdf}
-\caption{Summary of several teach-replay visual navigation methods proposed in the literature, characterized in terms of the kinds of sensor data employed, the environments in which they have been tested, and the environmental variations allowed between teach and replay steps: extraction and correspondence of vertical lines~\cite{OYA96}; template matching~\cite{MAT96}; Average Landmark Vectors~\cite{LAM00}; block matching Optical Flow~\cite{VAR05}; feature point tracking~\cite{CHE06}; visual motion estimation with stereo matching~\cite{KIM08}; mutual information Optical Flow vectors~\cite{STE12}; and local best match and sequence recognition~\cite{MIL12}.}
+\caption{Summary of several teach-replay visual navigation methods proposed in the literature, characterized in terms of the kinds of sensor data employed, the environments in which they have been tested, and the environmental variations allowed between teach and replay steps.}
 \label{tab:methods}
 \end{table}
 
@@ -56,7 +58,7 @@ Stewart~\cite{STE12} created an Optical Flow technique where mutual information,
 
 Finally, Milford~\cite{MIL12} sought to enable efficient route matching under extreme scene variations. The proposed method matches each replay image to the whole teach sequence, generating a series of \textit{image difference vectors} which become the columns of a matrix. Position along the learned path is determined not by finding the ``best'' match at every vector, but rather by looking for coherent sequences of ``good'' matches across matrix columns. It has been successfully tested in video clips recorded by cars driving on Nurburgring racing circuit in Germany and through the suburb of Alderley in Brisbane, Australia. While the method was highly successful considering the range of variations to which it was subjected (day / night, rain, moving cars, seasonal changes, etc), results can still be regarded as somewhat limited, in that no tests involving actual autonomous navigation were performed, test landscapes were restricted to open outdoors spaces, and only the car's position along the route was predicted (in contrast to e.g. also determining which lane the car was on).
 
-One conspicuous absence in the review above is Structure from Motion (SfM), as the ability to recover scene structure and camera pose from monocular image sequences would seem a sound foundation for a visual navigation system. However, traditional SfM operates off-line in batch mode, and is thus not suited for on-line use in real-time. Moreover, a camera mounted to a moving robot is often subject to mechanical effects such as vibration, and SfM is very sensitive to the issuing variations in camera parameters; it also has serious problems recovering scene structure from image sequences recorded during simple forward motion, which is likely the most common movement mode for a traveling robot. Lastly, what systems attempted to address these drawbacks~\cite{BEA97,ROY07} turned to be map-based, therefore subject to the same considerations previously made for SLAM: as the range of operation widens, so does the likelihood of localization errors increase.
+One conspicuous absence in the review above is Structure from Motion (SfM), as the ability to recover scene structure and camera pose from monocular image sequences would seem a sound foundation for a visual navigation system. However, SfM was conceived to operate off-line in batch mode, while navigation systems run on-line in real-time. Moreover, a camera mounted to a moving robot is often subject to mechanical effects such as vibration, and SfM is very sensitive to the issuing variations in camera parameters; it also has serious problems recovering scene structure from image sequences recorded during simple forward motion, which is likely the most common movement mode for a traveling robot. What systems attempted to address these drawbacks~\cite{BEA97,ROY07} turned to map-based approaches, and so are subject to the same constraints as SLAM: as the range of operation widens, so does the likelihood of localization errors increase.
 
 Table~\ref{tab:methods} summarizes the methods mentioned and the conditions under which they were tested. As can be seen, there is seldom any method that has been tested both indoors and outdoors, and against variations in lighting, landscape composition and moving elements.
 
@@ -212,9 +214,11 @@ Three environments were used for tests, as illustrated in Figure~\ref{fig:enviro
 \end{figure}
 
 \begin{figure}[h!]
-\includegraphics[width=\columnwidth]{shift_problem.pdf}
-\caption{Changes to apparent position of a far-off landmark relative to the robot's field of view. Starting from a position of perfect alignment between the robot's and landmark's centers (b), an in-place turn of as little as $10^o$ produces a large disparity (b); in contrast, the disparity after a sideways shift as large as half the robot's width is much shorter (c).}
-\label{fig:shift_problem}
+\subfloat[Entrance of building 3L]{\includegraphics[width=\columnwidth]{entrance_3l_turn.pdf}}\\
+\subfloat[Parking lot behind 3L]{\includegraphics[width=\columnwidth]{car_park_3l_turn.pdf}}\\
+\subfloat[Corridor outside room 3D402]{\includegraphics[width=\columnwidth]{corridor_3d_turn.pdf}}
+\caption{Comparing a ``central'' teach session to others differing by an initial in-place turn. Horizontal axis is change image index, and vertical axis is shift between change images, in pixels. Positive vertical values indicate a shift to the left, and negative values, to the right. Sessions recorded in front of building 3L (a), in the parking lot behind building 3L (b) and in the corridor outside of room 3D402.}
+\label{fig:tests_turn}
 \end{figure}
 
 \begin{figure}[h!]
@@ -224,39 +228,7 @@ Three environments were used for tests, as illustrated in Figure~\ref{fig:enviro
 \label{fig:changes}
 \end{figure}
 
-Initially, only teach sessions were recorded. An off-line tool was then used to evaluate whether the method would correctly identify the presence and direction of ``drift'' between pairs of sessions. Parameters for the shift detector were $w = 25$, $d = 50$ and $e = 5$. Table~\ref{tab:entrance_3l_turn} shows results for comparing pairs of teach sessions recorded in front of building 3L. Seven different sessions were recorded: a ``central'' session and six others, that deviated from the original by an in-place turn of $2^o$, $5^o$ or $10^o$, either to the left or right. Table~\ref{tab:car_park_3l_turn} shows results for the same kinds of tests in the parking lot behind 3L, and Table~\ref{tab:corridor_3d_turn}, for the corridor in front of room 3D402.
-
-\begin{table*}[h!]
-\includegraphics[width=\textwidth]{entrance_3l_turn.pdf}
-\caption{Results of comparing a ``central'' teach session with other sessions differing by an initial in-place turn. In each plot, horizontal axis is change image index, and vertical axis is the shift between change images. Positive vertical values indicate a left shift, and negative values, to the right. Brighter regions in the contour map indicate higher shift likelihood: the solid black line running over it indicates the shift value actually selected. Test environment was the entrance of building 3L.}
-\label{tab:entrance_3l_turn}
-\end{table*}
-
-\clearpage
-
-\begin{table*}[h!]
-\includegraphics[width=\textwidth]{car_park_3l_turn.pdf}
-\caption{Results of comparing a ``central'' teach session with other sessions differing by an initial in-place turn. In each plot, horizontal axis is change image index, and vertical axis is the shift between change images. Positive vertical values indicate a left shift, and negative values, to the right. Brighter regions in the contour map indicate higher shift likelihood: the solid black line running over it indicates the shift value actually selected. Test environment was the parking lot behind building 3L.}
-\label{tab:car_park_3l_turn}
-\end{table*}
-
-\clearpage
-
-\begin{table*}[h!]
-\includegraphics[width=\textwidth]{corridor_3d_turn.pdf}
-\caption{Results of comparing a ``central'' teach session with other sessions differing by an initial in-place turn. In each plot, horizontal axis is change image index, and vertical axis is the shift between change images. Positive vertical values indicate a left shift, and negative values, to the right. Brighter regions in the contour map indicate higher shift likelihood: the solid black line running over it indicates the shift value actually selected. Test environment was the parking lot behind building 3L.}
-\label{tab:corridor_3d_turn}
-\end{table*}
-
-\clearpage
-
-\begin{table*}[h!]
-\includegraphics[width=\textwidth]{entrance_3l_shift.pdf}
-\caption{Results of comparing a ``central'' teach session with other sessions differing by an initial sideways shift. Sessions were successively recorded in front of building 3L. Sessions recorded under the same initial parameters produce conflicting results.}
-\label{tab:entrance_3l_shift}
-\end{table*}
-
-\clearpage
+Initially, only teach sessions were recorded. An off-line tool was then used to evaluate whether the method would correctly identify the presence and direction of ``drift'' between pairs of sessions. Parameters for the shift detector were $w = 25$, $d = 50$ and $e = 5$. Figure~\ref{fig:tests_turn} shows results for comparing pairs of teach sessions. Seven different sessions were recorded in each of the test environments: a ``central'' session and six others, that deviated from the original by an in-place turn of $2^o$, $5^o$ or $10^o$, either to the left or right.
 
 \begin{figure}[h!]
 \includegraphics[width=\columnwidth]{pedestrian.pdf}
@@ -270,8 +242,6 @@ Initially, only teach sessions were recorded. An off-line tool was then used to 
 \caption{Effect of robot directional corrections to the real-time change image. As the robot turns in response to an estimated drift, the (a) initially sparse real-time change image (b) becomes cluttered with changing regions that fell out of alignment with the current sequence.}
 \label{fig:clutter}
 \end{figure}
-
-Tests with an initial sideways shift were also performed, yielding somewhat less reliable results. As Table~\ref{tab:entrance_3l_shift} shows, successive sessions recorded under the same conditions, with the same amount of shift, would sometimes result in erroneous estimates. Figure~\ref{fig:shift_problem} provides an explanation: compared to in-place turning, sideways shift produces much less disparity in far-off landmarks, which compose the bulk of outdoors landscapes. With much less differences to work on, it's understandable that the system may have problems estimating its exact position.
 
 Some experiments under changing lighting conditions and landscape composition were also performed. Since DiVS shift estimation does not compare individual images, but rather the {\it rates of change} in pairs of image sequences, it is inherently robust to changes that are consistent across whole image sequences, such as overall luminance. It also has a degree of natural resilience to landscape changes, provided they don't substantially affect the rate of change. Figure~\ref{fig:changes} shows an example case.
 
@@ -306,28 +276,14 @@ The robot's steering algorithm is detailed below:
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=\columnwidth]{car_park_3l_steer_left.pdf}
-\caption{Results of replay test performed in the parking lot behind building 3L. Setting off in a straight path after a $2^o$ in-place turn to the left (relative to the heading direction of the teach session), the robot correctly identifies its drifting direction and acts to correct it, but later mistakes its position relative to the teach session path, diverging from it.}
-\label{fig:car_park_3l_steer_left}
+\subfloat[Parking lot behind 3L ($2^o$ left in-place turn)]{\includegraphics[width=\columnwidth]{car_park_3l_steer_left.pdf}}\\
+\subfloat[Parking lot behind 3L ($2^o$ right in-place turn)]{\includegraphics[width=\columnwidth]{car_park_3l_steer_right.pdf}}\\
+\subfloat[Entrance of building 3L ($5^o$ right in-place turn)]{\includegraphics[width=\columnwidth]{entrance_3l_steer_right.pdf}}
+\caption{Results for replay tests performed in the the parking lot behind building 3L (a, b) and the building's entrance (c). (a) Setting off in a straight path after a $2^o$ in-place turn to the left (relative to the heading direction of the teach session), the robot correctly identifies its drifting direction and acts to correct it, but later mistakes its position relative to the teach session path, diverging from it. (b) Setting off in a straight path after a $2^o$ in-place turn to the right, the robot fails to identify its drifting direction and further diverges from the teach session path. (c) Setting off in a straight path after a $5^o$ in-place turn to the right, the robot correctly detects the drift direction and apply successive corrections to its direction, however those were too timid to be effective.}
+\label{fig:replay_tests}
 \end{figure}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=\columnwidth]{car_park_3l_steer_right.pdf}
-\caption{Results of replay test performed in the parking lot behind building 3L. Setting off in a straight path after a $2^o$ in-place turn to the right (relative to the heading direction of the teach session), the robot fails to identify its drifting direction and further diverges from the teach session path.}
-\label{fig:car_park_3l_steer_right}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=\columnwidth]{entrance_3l_steer_right.pdf}
-\caption{Results of replay test performed in front of building 3L. Setting off in a straight path after a $5^o$ in-place turn to the right (relative to the heading direction of the teach session), the robot correctly detects the drift direction and apply successive corrections to its direction, however those were too timid to be effective.}
-\label{fig:entrance_3l_steer_right}
-\end{figure}
-
-Figure~\ref{fig:car_park_3l_steer_left} shows the results of a typical replay test in the parking lot behind building 3L. Setting off in a straight path after a $2^o$ in-place turn to the left (relative to the heading direction of the teach session), the robot correctly identifies its drifting direction and acts to correct it, but later mistakes its position relative to the teach session path, diverging from it. A second test, where the robot set off after a $2^o$ in-place turn to the right, fared less well: as shown in Figure~\ref{fig:car_park_3l_steer_right}, the robot fails to identify its drifting direction and further diverges from the teach session path.
-
-Another test, performed in front of building 3L, also yielded suboptimal results. As shown in Figure~\ref{fig:entrance_3l_steer_right}, after turning in-place $5^o$ to the right and then setting off, the robot correctly detects the drift direction and apply successive corrections to its direction, however those were too timid to effectively correct the robot's direction.
+Figure~\ref{fig:replay_tests} shows results of replay tests performed in the parking lot behind building 3L, as well as the building's entrance. As can be seen, the robot generally identifies the correct direction of the drift (except in the case of the $2^o$ right drift, where it mistook the drift's direction), but then it either fails to notice when it has crossed over the original path, or doesn't make corrections strong enough to effectively return to it.
 
 \section{Conclusion}
 
