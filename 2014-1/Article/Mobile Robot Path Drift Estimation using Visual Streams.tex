@@ -1,8 +1,12 @@
 \documentclass[twocolumn, 9pt,fleqn]{jsproceedings}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage{float}
 %\usepackage[caption = false]{subfig}
 
 \interfootnotelinepenalty=10000
+
+\renewcommand\refname{References}
 
 \title{Mobile Robot Path Drift Estimation using Visual Streams}
 
@@ -11,7 +15,7 @@
 \affiliation{Intelligent Robotics Laboratory, OHYA's group}
 
 \abstract{
-This article describes a new approach for visual navigation under the teach-replay paradigm. Dubbed Differential Visual Stream, or DiVS for short, it only requires a single front-mounted monocular camera for input; it dispenses with any form of calibration, including calibration for intrinsic camera parameters (e.g. lens distortion). The method relies on the calculation of difference images to measure the rate of change over the the visual input stream; this information is used to characterize both the landscape in front of the robot and its position within the surrounding environment. Experiments show DiVS is robust to lighting variations and changes to the visual composition of the landscape, and works well both indoors and outdoors. The article concludes with a discussion on further research.
+This article describes a new approach for visual navigation under the teach-replay scenario. Dubbed Differential Visual Stream, or DiVS for short, it only requires a single front-mounted monocular camera for input; it dispenses with any form of calibration, including calibration for intrinsic camera parameters (e.g. lens distortion). The method relies on the calculation of difference images to measure the rate of change over the the visual input stream; this information is used to characterize both the landscape in front of the robot and its position within the surrounding environment. Experiments show DiVS is robust to lighting variations and changes to the visual composition of the landscape, and works well both indoors and outdoors. The article concludes with a discussion on further research.
 }
 
 \keywords{Image Processing, Machine Learning, Navigation}
@@ -25,21 +29,19 @@ This article describes a new approach for visual navigation under the teach-repl
 
 \section{Introduction}
 
-Autonomous navigation is a central topic in mobile robotics, with a range of useful applications~\cite{BON02,ARK90}. In particular, given the advantages of cameras over other sensors~\cite{BON02,DAV07}, robust vision-based navigation has long been considered an important research goal. Methods proposed over the years can be roughly divided into \textit{map-based} and \textit{mapless}, according to whether they depend on globally consistent world representations~\cite{BON02}.
+Autonomous navigation is a central topic in mobile robotics, with a variety of useful applications~\cite{BON02,ARK90}. In particular, given the advantages of cameras over other sensors~\cite{BON02,DAV07}, robust vision-based navigation has long been considered an important research goal. Methods proposed over the years can be roughly divided into \textit{map-based} and \textit{mapless}, according to whether they depend on globally consistent world representations~\cite{BON02}.
 
-Simultaneous Localization and Mapping (SLAM) is a popular map-based approach. Initially supported mainly by range sensors such as laser and ultrasound, recent advances and wider hardware availability have increased the number of such systems that employ cameras as navigation sensors~\cite{DAV07,CUM08}. Unfortunately, the need to keep an accurate map, and precisely track the robot's pose within it, have always placed an upper bound on the geographic range a SLAM system can reliably navigate.
+Simultaneous Localization and Mapping (SLAM) is a popular map-based approach. Initially supported mainly by range sensors such as laser and ultrasound, recent advances and wider hardware availability have increased the number of such systems that employ cameras as navigation sensors~\cite{DAV07,CUM08}. Unfortunately, the need to keep an accurate map, and precisely track the robot's pose within it, have always placed an upper bound on the geographic reach of SLAM systems.
 
-The complexity and limitations of map-based navigation systems have motivated work in mapless methods. In particular, \textit{appearance-based} navigation represents the world as sequences of ``snapshots'' collected along a route, which are later matched to live sensory input in order to estimate the robot's present location. Its development has been partly inspired by studies on insects such as bees and ants, whose homing skills do not seem to be based on detailed geometrical representations~\cite{VAR05}. ``Teach-replay'' is the typical scenario for appearance-based navigation: a robot is first guided through an environment (the teaching phase), and must then autonomously retrace the original path (the replay phase)~\cite{BUR01}. A wide variety of vision-based solutions have been applied to this problem~\cite{VAR05,BUR01,OYA96,MAT96,LAM00,CHE06} over the years. However, experimental systems are often restricted to environments with limited lighting variation, devoid of changes to landscape composition or moving elements such as people and other machines~\cite{KIM08}. This is understandable, since visual recognition of objects and places, upon which many visual navigation procedures are based, is a notoriously hard problem under changing environment conditions. Its challenges motivate much of the research on visual features that are as invariant as possible, but also quick to compute~\cite{ORT12}. A complementary solution is still required, however, since it is unlikely a method with perfect reliability under all possible circumstances will ever be developed.
+The complexity and limitations of map-based navigation systems have motivated work in mapless methods. In particular, \textit{appearance-based} navigation represents the world as sequences of ``snapshots'' collected along a route, which are later matched to live sensory input in order to estimate the robot's present location. \textit{Teach-replay} is the typical scenario for appearance-based navigation: a robot is first guided through an environment (the teaching step), and must then autonomously retrace the original path (the replay step)~\cite{BUR01}. Several vision-based solutions~\cite{BUR01,OYA96,MAT96,LAM00,VAR05,CHE06,KIM08,STE12,MIL12} have been applied to this problem over the years. However, experimental systems are often restricted to either indoors or outdoors environments, devoid of large lighting variations, changes to landscape composition (i.e. addition or removal of scene elements) or moving elements such as people and other machines~\cite{KIM08}.
 
-Occasional misses in the visual recognition part of a navigation system can be compensated by choosing not the best match at each moment, but a coherent sequence of matches over time~\cite{MIL12}. For example, as a mobile robot drives past a landmark, its image is expected to drift towards the edge of the field of view, until disappearing completely once it is passed by. A further extension to this approach is proposed in this article: to perform visual recognition not over individual images, but the averaged sum of difference images over a given window. The objective is to characterize a landscape in terms of how its appearance changes as the point of view moves. This has the advantage of leaving out many of the variations that complicate visual matching across changing environment conditions, both indoors and outdoors. It also simplifies the task of estimating the robot's position relative to the landscape, as the position and direction of approach will affect not only what scene elements are visible, but also how they change in response to the observer's continued movement.
-
-The remainder of the article is organized as follows. In the next section a short review of appearance-based navigation systems is presented, detailing its core methods, sources of input, kinds of environment where they have been tested and what variations have been allowed between guided (teach) and autonomous (replay) navigation performances. It is shown that there still an opportunity to propose a method that works well against several types of environmental variation, both indoors and outdoors, and requiring simple hardware such as a single monocular camera. Next the theory of Differential Visual Stream position estimation is detailed, showing it has the potential for resilience against a range of input variations. The setup employed for field tests is described and its results are reported, demonstrating the method's performance. Directions for further research are discussed in the conclusion.
+This article presents an image processing method dubbed \textit{Differential Visual Stream} (DiVS), which provides a representation for how landscape images change as the observer advances towards it~\cite{HEL14a}. Its remainder sections are organized as follows: in the next section a short review of appearance-based navigation systems is presented, detailing its core methods, sources of input, test environments and what variations have been allowed between the teach and replay steps. It is shown there is a lack of methods that work well against several types of environmental variation, both indoors and outdoors, and requiring simple hardware such as a single monocular camera. Next the Differential Visual Stream method is presented, along with a procedure based on it for detecting shifts between image sequence pairs. The resulting architecture, reminiscent of the multichannel neuron abstract machine~\cite{HEL14b}, is leveraged to enable appearance-based navigation. Experiments are then reported, demonstrating the method's resilience under a range of environmental variations, both indoors and outdoors. Directions for further research are discussed in the conclusion.
 
 \section{Related Work}
 
 The following is a non-exhaustive review of appearance-based navigation methods. It covers a period of sixteen years (1996 to 2012), eight distinct approaches and several sensor setups, including various combinations of monocular, stereo and panoramic cameras, wheel encoders and specialized sensors. Virtually the only common points among all methods are the use of visual input and performance of teach-replay.
 
-Early work by Ohno~\cite{OYA96} employed a procedure to extract vertical lines from recorded images; during replay those were matched to lines extracted from real-time images, and the mismatch between the two sets was used to estimate differences of position relative to the teaching phase. Around the same time, Matsumoto~\cite{MAT96} used template search to match the current visual input to a recorded sequence of downsampled grayscale images, with the assumption that the robot's position would be closest to where the best matching picture was taken. Both systems employed a single front-mounted monocular camera as input, and were tested in indoor corridor environments devoid of lighting variations, landscape composition changes or moving elements.
+Early work by Ohno~\cite{OYA96} employed a procedure to extract vertical lines from recorded images; during replay those were matched to lines extracted from real-time images, and the mismatch between the two sets was used to estimate differences of position relative to the teaching step. Around the same time, Matsumoto~\cite{MAT96} used template search to match the current visual input to a recorded sequence of downsampled grayscale images, with the assumption that the robot's position would be closest to where the best matching picture was taken. Both systems employed a single front-mounted monocular camera as input, and were tested in indoor corridor environments devoid of lighting variations, landscape composition changes or moving elements.
 
 \begin{table}[h!]
 \centering
@@ -48,15 +50,15 @@ Early work by Ohno~\cite{OYA96} employed a procedure to extract vertical lines f
 \label{tab:methods}
 \end{table}
 
-Lambrinos~\cite{LAM00} was inspired by the navigation and homing skills of the \textit{Cataglyphis} desert ant to develop a system combining path integration and visual piloting. Path integration is implemented with the use of wheel encoders to collect odometry data, along with arrays of photometers and polarized light sensors working as sky compass. The \textit{Average Landmark Vector} (ALV) method is applied as a very memory-efficient solution for landmark-based visual navigation; vectors are calculated from one-dimensional binary arrays indicating the directions and apparent widths of landmarks around the robot, which are in turn computed from panoramic images collected by a $360^o$ camera. Experiments were performed on a sandy salt-pan flat in the Tunisian desert -- habitat to \textit{Cataglyphis} -- using two to four black cylinders for landmarks. The daily movement of the Sun and the occasional presence of clouds allowed for some variations in lighting, but otherwise no environmental disturbance was allowed. No indoor tests were performed (and at any rate they would be unlikely to succeed, given the robot's need of a clear line of sight to the sky in order for its compass to work), but a simulated environment containing as many as 27 landmarks was also employed for tests. Later, Vardy~\cite{VAR05} also employed a $360^o$ camera and wheel encoders in a design inspired by homing strategies observed in insects, but using Optical Flow (implemented via block matching) instead of ALV. Indoor tests were performed under a wide variety of lighting conditions, and some landscape variation was allowed by adding and removing chairs from the test environment between tests, but again no moving elements were allowed.
+Lambrinos~\cite{LAM00} developed a system combining path integration (implemented with the use of wheel encoders, together with arrays of photometers and polarized light sensors working as sky compass) to the \textit{Average Landmark Vector} (ALV) method, which represents the directions and apparent widths of landmarks around the robot as a one-dimensional binary array, computed from a $360^o$ panoramic camera image. Tests were performed in a plain outdoors environment with two to four black cylinders placed around the robot for landmarks. The daily movement of the Sun and the occasional presence of clouds allowed for some variations in lighting, but otherwise no scene changes were allowed. Simulations with as many as 27 landmarks were also performed. Vardy~\cite{VAR05} also employed a $360^o$ camera and wheel encoders in a design inspired by homing strategies observed in insects, but using Optical Flow (implemented via block matching) instead of ALV. Indoor tests were performed under a wide variety of lighting conditions, and some landscape variation was allowed by adding and removing chairs from the test environment between tests, but again no moving elements were allowed.
 
-Chen and Birchfield~\cite{CHE06} developed a method for "qualitative" navigation employing a single monocular camera. Based on feature point matching, it does not try to accurately determine the robot's pose relative to selected landmarks, but just provide a general direction towards a target location. In this respect it works very well, being resilient to lighting changes as well as moving elements that might obscure selected background features during replay. The effects of moving elements during teaching phase, however, were not verified, and neither experiments with landscape composition changes were performed.
+Chen and Birchfield~\cite{CHE06} developed a method for "qualitative" navigation employing a single monocular camera. Based on feature point matching, it does not try to accurately determine the robot's pose relative to selected landmarks, but just provide a general direction towards a target location. In this respect it works very well, being resilient to lighting changes as well as moving elements that might obscure selected background features during replay. The effects of moving elements during the teaching step, however, were not verified, and neither experiments with landscape composition changes were performed.
 
 Kim~\cite{KIM08} combined feature matching with motion estimation to create a navigation system robust to moving elements and landscape composition changes. Feature matching and stereo vision is used to recover 3D scene structure, which is used to both characterize key locations, and enable motion estimation. When good correspondence between key frames in the teach and replay steps cannot be achieved (e.g. due to landscape changes), estimated poses are compared instead. The system was shown to reliably retrace paths as long as $60m$, but no results on lighting changes or outdoor tests were reported.
 
 Stewart~\cite{STE12} created an Optical Flow technique where mutual information, rather than any particular visual feature, is used to determine the apparent movement of local image regions. The so-called \textit{flow vectors} computed from pairs of teach and replay images indicate the direction of drift from the original path. The system does not employ odometry, relying exclusively on a single front-mounted monocular camera for input. While some resilience to changes in landscape composition (such as appearance / disappearance of people) is reported, no specific tests were performed to assess robustness to environment variations.
 
-Finally, Milford~\cite{MIL12} sought to enable efficient route matching under extreme scene variations. The proposed method matches each replay image to the whole teach sequence, generating a series of \textit{image difference vectors} which become the columns of a matrix. Position along the learned path is determined not by finding the ``best'' match at every vector, but rather by looking for coherent sequences of ``good'' matches across matrix columns. It has been successfully tested in video clips recorded by cars driving on Nurburgring racing circuit in Germany and through the suburb of Alderley in Brisbane, Australia. While the method was highly successful considering the range of variations to which it was subjected (day / night, rain, moving cars, seasonal changes, etc), results can still be regarded as somewhat limited, in that no tests involving actual autonomous navigation were performed, test landscapes were restricted to open outdoors spaces, and only the car's position along the route was predicted (in contrast to e.g. also determining which lane the car was on).
+Finally, Milford~\cite{MIL12} sought to enable efficient route matching under extreme scene variations. The proposed method matches each replay image to the whole teach sequence, generating a series of \textit{image difference vectors} which become the columns of a matrix. Position along the learned path is determined not by finding the ``best'' match at every vector, but rather by looking for coherent sequences of ``good'' matches across matrix columns. It has been successfully tested in video clips recorded by cars driving on Nurburgring racing circuit in Germany and through the suburb of Alderley in Brisbane, Australia. While the method was highly successful in recognizing revisited locations across a wide range of variations (day, night, rain, moving cars, seasonal changes, etc), no tests involving actual autonomous navigation were performed, test landscapes were restricted to open outdoors spaces, and only the car's position along the route was predicted (in contrast to e.g. also determining which lane the car was on).
 
 One conspicuous absence in the review above is Structure from Motion (SfM), as the ability to recover scene structure and camera pose from monocular image sequences would seem a sound foundation for a visual navigation system. However, SfM was conceived to operate off-line in batch mode, while navigation systems run on-line in real-time. Moreover, a camera mounted to a moving robot is often subject to mechanical effects such as vibration, and SfM is very sensitive to the issuing variations in camera parameters; it also has serious problems recovering scene structure from image sequences recorded during simple forward motion, which is likely the most common movement mode for a traveling robot. What systems attempted to address these drawbacks~\cite{BEA97,ROY07} turned to map-based approaches, and so are subject to the same constraints as SLAM: as the range of operation widens, so does the likelihood of localization errors increase.
 
@@ -90,6 +92,12 @@ Where the subtraction operator is defined for images as pixel-wise subtraction (
 B(t, k) = O(D(t, k))
 \end{equation}
 
+\begin{figure}[h!]
+\includegraphics[width=\columnwidth]{divs.pdf}
+\caption{Quantitative representation of changes in field of view input over an image sequence of length $w$. Subsequent pairs are drawn from a sequence of $w$ gray-scale images (a). The difference image of each pair is calculated (b) and converted into a binary image by Otsu thresholding (c). The sequence of thresholded difference images (d) is pixel-wise averaged, resulting in a \textit{change image} for sequence $w$ (e).}
+\label{fig:divs}
+\end{figure}
+
 Where each pixel in the binary difference image $B(t, k)$ is $1$ if the corresponding pixel in $D(t, k)$ was above the threshold automatically determined by Otsu's method, and $0$ otherwise.
 
 How much each image discontinuity ``moves'' between snapshots is determined by several factors. Discounting moving objects, the larger and closer an object is, the bigger the change it will effect on the field of view as it is approached (conversely, the shorter and further away, the smaller the change). Over a prolonged travel, close-by objects -- whether small or large -- will be eventually passed by, unless they are sizable obstacles such as corridor walls. Meanwhile, distant objects and their discontinuities will remain visible for a long time. Changes to regions of the field of view can, therefore, be further characterized in terms of the amount of sustained change over a time period, which enables a limited level of inference over the structure of the landscape:
@@ -112,24 +120,6 @@ DiVS(w, t, k) = \frac{1}{w} \sum_{l=k-w}^{k-1}{O(|S(p(t, l)) - S(p(t, l+1))|)}
 
 Which is just the flattening out of all intermediate definitions used before. Figure ~\ref{fig:divs} illustrates the procedures described above.
 
-\begin{figure}[h!]
-\includegraphics[width=\columnwidth]{divs.pdf}
-\caption{Quantitative representation of changes in field of view input over an image sequence of length $w$. Subsequent pairs are drawn from a sequence of $w$ gray-scale images (a). The difference image of each pair is calculated (b) and converted into a binary image by Otsu thresholding (c). The sequence of thresholded difference images (d) is pixel-wise averaged, resulting in a \textit{change image} for sequence $w$ (e).}
-\label{fig:divs}
-\end{figure}
-
-\begin{figure}[h!]
-\includegraphics[width=\columnwidth]{vector.pdf}
-\caption{Change vector calculation. A change image $C_k$ is vertically cropped (a), then split in $d$ non-overlapping columns of same width (b). A change vector of dimension $d$ is generated by summing the pixel values within each column (d).}
-\label{fig:vector}
-\end{figure}
-
-\begin{figure}[h!]
-\includegraphics[width=\columnwidth]{slide_cc.pdf}
-\caption{Shift estimation between teach and replay change vectors. A replay change vector of length $d$ (a) is repeatedly cross-correlated with the contents of a window of length $e$ sliding across the corresponding teach vector (b), producing at every turn a cross-correlation vector of same length (c). The $d - e$ cross-correlation vectors are zero-padded from the left to length $2d$ (gray squares indicate padding cells), left-shifted by $k$ positions (i.e. the position of the window when they were calculated), and summed (d). The resulting \textit{shift vector} describes the likelihood of different degrees and directions of shift (e).}
-\label{fig:slide_cc}
-\end{figure}
-
 Because change images are calculated as the average over a range of binary difference images, they attenuate, or leave out entirely, many of the variations that complicate image processing tasks. Changes in lighting are mostly dealt with; moving elements are seldom registered, especially if they move fast and remain visible for a short period relative to the time range covered by the window; even changes to the landscape outline can have limited effect, if they don't substantially affect the amount of observed change (as in the case of e.g. closed versus open doors). However, in order to use change images for spatial inference in teach-replay, three problems still need to be addressed:
 
 \begin{enumerate}
@@ -147,6 +137,18 @@ Figure~\ref{fig:vector} illustrates the steps above.
 
 Cross-correlation is a popular technique for estimating the shift between two signals, robust to noise and quick to compute. A normalized variation of the method~\cite{HEL14b} is employed to check the shift between teach and replay vectors. For two change vectors $v_t$ and $v_r$, the \textit{windowed correlation} function $WINC(e, v_t, v_r)$ places a window of length $e$ over the teach vector, then calculates the normalized cross-correlation of the replay vector by the contents of the window. The window is then slided one position to the right, and the operation repeated. At every step a new cross-correlation coefficient vector of length $d$ is computed. The $d - e$ vectors must then be summed to produce a final shift estimation, but first one issue has to be addressed.
 
+\begin{figure}[h!]
+\includegraphics[width=\columnwidth]{vector.pdf}
+\caption{Change vector calculation. A change image $C_k$ is vertically cropped (a), then split in $d$ non-overlapping columns of same width (b). A change vector of dimension $d$ is generated by summing the pixel values within each column (d).}
+\label{fig:vector}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\columnwidth]{slide_cc.pdf}
+\caption{Shift estimation between teach and replay change vectors. A replay change vector of length $d$ (a) is repeatedly cross-correlated with the contents of a window of length $e$ sliding across the corresponding teach vector (b), producing at every turn a cross-correlation vector of same length (c). The $d - e$ cross-correlation vectors are zero-padded from the left to length $2d$ (gray squares indicate padding cells), left-shifted by $k$ positions (i.e. the position of the window when they were calculated), and summed (d). The resulting \textit{shift vector} describes the likelihood of different degrees and directions of shift (e).}
+\label{fig:slide_cc}
+\end{figure}
+
 Each cross-correlation vector measures the similarity between the replay vector and a different section of the teach vector. For a section taken from a initial position $k > 1$, coefficients from positions prior to $k$ indicate the likelihood of a left shift, and positions following, of a right shift. For example, the first vector, which was produced when the sliding window was at position $k = 1$, can only ever indicate shifts to the right. The next one, however, computed when the window was on position $k = 2$, can conceivably report a shift of at most one position to the left, and as many as $d-1$ positions to the right. In order words, cross-correlation vectors are anchored to different reference frames relative to the replay vector. To account for this, each one is zero-padded from the left to length $2d$, then left-shifted $k$ positions (i.e. the position of the window when they were calculated).
 
 After summing the padded and shifted cross-correlation vectors, the resulting \textit{shift vector} is a map of shift likelihoods: the central value indicates the likelihood that no shift has taken place, while values prior to it represent the likelihood of a shift to the left, and values following, of a shift to the right. Figure~\ref{fig:slide_cc} illustrates the process.
@@ -159,7 +161,7 @@ All that is left is to select a definite shift to use as a proxy to the drift th
 \label{fig:selection}
 \end{figure}
 
-Let's now turn to the problem of selecting a change image from the teach step to match against the current replay change image. First, a proper definition of what means for a change image in the replay session to ``correspond'' to an image in the teach session is required. Given a function $\hat{x} = o(t)$ of the robot's position, the \textit{frame correspondence} function $c(t_t, t_r, k)$ can be defined as:
+Let's now turn to the problem of selecting a change image from the teach step to match against the current replay change image. First, a proper definition of what means for a change image in the replay session to ``correspond'' to an image in the teach session is required. Given a function $(x, y, \theta) = o(t)$ of the robot's pose, the \textit{frame correspondence} function $c(t_t, t_r, k)$ can be defined as:
 \begin{equation}
 c(t_t, t_r, k) = \arg \min_{k' \in [1, n]} {\| o(p(t_t, k')) - o(p(t_r, k)) \|}
 \end{equation}
@@ -180,18 +182,18 @@ c_t(t_t, t_r, k) = \arg \min_{k' \in [1, n]} {| (p(t_t, k') - t_t) - (p(t_r, k) 
 
 This may work better than the previous option when guarantees on regular sampling are poor, but it still assumes a constant speed shared across the two steps.
 
-It's also possible to correspond change images by the distance $x = d(t_0, t)$ traveled since the start of the session:
+It's also possible to correspond change images by the distance $s = d(t_0, t)$ traveled since the start of the session:
 \begin{equation}
 c_d(t_t, t_r, k) = \arg \min_{k' \in [1, n]} {| d(t_t, p(t_t, k')) - d(t_r, p(t_r, k)) |}
 \end{equation}
 
-It may seem contradictory to traveled distance on a system ostensibly meant to compensate for inaccuracies in odometry data, but it could work if the odometer is regularly reset -- for example, after the robot passes by key landmarks.
+It may seem contradictory to employ traveled distance on a system ostensibly meant to compensate for inaccuracies in odometry data, but it could work if the origin location is regularly reset -- for example, after the robot passes by key landmarks.
 
 In the implementation and tests detailed later on the distance-based matching strategy is used, but in fact after several tests performed on a range of $10m$ to $20m$, no significant performance difference was found among the three.
 
-Finally, the frame selection function must be defined. The problem is how to ensure that any two subsequent images $(S(p(t, k)), S(p(t, k+1)))$ are different enough to provide useful information, but not too different, as this would increase the noise. A simple solution is again to rely on odometry. Given a function $x = o(t)$ of the robot's position, $p(t, k)$ can be defined such that:
+Finally, the frame selection function must be defined. The problem is how to ensure that any two subsequent images $(S(p(t, k)), S(p(t, k+1)))$ are different enough to provide useful information, but not too different, as this would increase the noise. A simple solution is to again rely on traveled distance, defining  $p(t, k)$ as:
 \begin{equation}
-p(t, k) = t' \; | \; (k - 1)q \leq o(t') - o(t)
+p(t, k) = \arg \min_{t'} {(k - 1)q \leq d(t') - d(t)}
 \end{equation}
 
 Where $q$ is the minimal distance traveled by the robot between $p(t, k)$ and $p(t, k+1)$.
@@ -247,43 +249,51 @@ Some experiments under changing lighting conditions and landscape composition we
 
 While most recorded sessions do not depict any moving elements, some unintended records of people walking by the robot were kept for evaluation. Figure~\ref{fig:pedestrian} shows one such case, where despite presence of a walking person in one teach session, but not the other, did not affect the system's correct assessment that there was no significant drift between the sessions.
 
-Replay sessions were also performed. Compared to off-line shift detection between teach sessions, real-time shift detection during replay is complicated by the effects of steering on the change images. As Figure~\ref{fig:clutter} shows, the moment the robot turns in response to a perceived shift, the changing regions of the visual field fall out of alignment with the ongoing sequence, cluttering the change image. To account for this, every time the robot adjusts its heading direction, a new ``time zero'' for calculation of change images is set, causing any images collected during steering to be ignored. Obviously this implies the robot will ``run blind'' for a time, unable to calculate further drift estimates until a while after it has stabilized its heading direction.
+Replay sessions were also performed. Compared to off-line shift detection between teach sessions, real-time shift detection during replay is complicated by the effects of steering on the change images. As Figure~\ref{fig:clutter} shows, the moment the robot turns in response to a perceived shift, the changing regions of the visual field fall out of alignment with the ongoing sequence, cluttering the change image. To account for this, every time the robot adjusts its heading direction, a new ``time zero'' for calculation of change images is set, causing any images collected during steering to be ignored. Obviously this implies the robot will ``run blind'' for a time, unable to calculate further drift estimates until a while after it has stabilized its heading direction. Algorithm~\ref{alg:control} formalizes this control model.
 
-The robot's steering algorithm is detailed below:
-
-\begin{enumerate}
-\item Load images and odometry from teach step
-\item Let the initial robot pose $(x_0, y_0, \theta_0) \gets (0, 0, 0)$
-\item Set the robot off in a straight path
-\item Let $t_r \gets t$ (i.e. the current time)
-\item Let $t_{estimation} \gets t_r$
-\item Let $k \gets 0$
-\item Let $k \gets k + 1$
-\item Wait until $p(t_{estimation}, k+w) \leq t$
-\item Let $k' = c_d(t_t, t_r, k)$
-\item If $k' = n$, stop the robot and terminate the steering program
-\item Let $v_r = v(d, DiVS(w, t_{estimation}, k))$
-\item Let $v_t = v(d, DiVS(w, t_t, k'))$
-\item Let $shift \gets \arg \max_{i \in [1, d]}{WINC(e, v_t, v_r)}$
-\item If $|shift| \leq 1$, go back to step (7)
-\item Let $d \gets 1.0$ if $shift < 0$, $d \gets -1.0$ otherwise
-\item Adjust the robot's movement so that future pose $(x_{t+\Delta t}, y_{t+\Delta t}, \theta_{t+\Delta t}) \approx (x_t + 0.3, y_t + 0.1d, \theta + d^o)$
-\item Let $t_{estimation} \gets t$
-\item Wait until $t_{estimation} + \Delta t \leq t$
-\item Restore robot movement to a straight path
-\item Go back to step (6)
-\end{enumerate}
+\begin{algorithm}
+\begin{algorithmic}
+\State $t_r \gets t$ \Comment{Set replay session start time to current time}
+\State $t_e \gets t$
+\State $k \gets w$
+\State $(x_0, y_0, \theta_0) \gets (0, 0, 0)$ \Comment{Initial robot pose}
+\State \Call{steer}{$\infty, 0, 0$} \Comment{Set the robot off in a straight path}
+\Repeat
+    \State \Call{wait}{$p(t_e, k) \leq t$} \Comment{Wait until expression is true}
+    \State $k' \gets c_d(t_t, t_r, k)$
+    \State $v_r \gets v(d, DiVS(w, t_e, k))$
+    \State $v_t \gets v(d, DiVS(w, t_t, k'))$
+    \State $shift \gets \arg \max_{i \in [1, d]}{WINC(e, v_t, v_r)}$
+    \If{$|shift| \leq 1$}
+        \State $k \gets k + 1$
+    \Else
+        \State $s \gets \frac{|shift|}{shift}$ \Comment{$1$ if shift $> 0$ (to the left), $-1$ otherwise}
+        \State $\Delta y = \min{(\frac{|shift|}{100}, 0.5)}$
+        \State $\Delta \theta = \min{(|shift|, 10)}$
+        \State $(x_e, y_e, \theta_e) \gets (x_t + 0.3, y_t - s \Delta y, \theta_t - s \Delta \theta)$
+        \State \Call{steer}{$x_e, y_e, \theta_e$} \Comment{Steer towards pose}
+        \State \Call{wait}{$(x_t, y_t, \theta_t) \approx (x_e, y_e, \theta_e)$}
+        \State $t_e \gets t$
+        \State $k \gets k + w$
+    \EndIf
+\Until{$k' = n$}
+\end{algorithmic}
+\caption{Control algorithm based on shift differences between teach and replay change images. STEER() commands the robot to move towards the given pose in a smooth trajectory; should the destination pose be reached (or missed), the robot then resumes movement in a straight path.}
+\label{alg:control}
+\end{algorithm}
 
 \begin{figure}[h!]
 \centering
-\subfloat[Parking lot behind 3L ($2^o$ left in-place turn)]{\includegraphics[width=\columnwidth]{car_park_3l_steer_left.pdf}}\\
-\subfloat[Parking lot behind 3L ($2^o$ right in-place turn)]{\includegraphics[width=\columnwidth]{car_park_3l_steer_right.pdf}}\\
-\subfloat[Entrance of building 3L ($5^o$ right in-place turn)]{\includegraphics[width=\columnwidth]{entrance_3l_steer_right.pdf}}
-\caption{Results for replay tests performed in the the parking lot behind building 3L (a, b) and the building's entrance (c). (a) Setting off in a straight path after a $2^o$ in-place turn to the left (relative to the heading direction of the teach session), the robot correctly identifies its drifting direction and acts to correct it, but later mistakes its position relative to the teach session path, diverging from it. (b) Setting off in a straight path after a $2^o$ in-place turn to the right, the robot fails to identify its drifting direction and further diverges from the teach session path. (c) Setting off in a straight path after a $5^o$ in-place turn to the right, the robot correctly detects the drift direction and apply successive corrections to its direction, however those were too timid to be effective.}
+\subfloat[]{\includegraphics[width=\columnwidth]{steering_2.pdf}}\\
+\subfloat[]{\includegraphics[width=\columnwidth]{steering_5.pdf}}\\
+\subfloat[]{\includegraphics[width=\columnwidth]{steering_10.pdf}}
+\caption{Results for replay tests performed before the front entrance of building 3L, with initial in-place turns of $2^o$ (a),  $5^o$ (b), $10^o$ (c), both to the left (positive values) and to the right (negative values). }
 \label{fig:replay_tests}
 \end{figure}
 
-Figure~\ref{fig:replay_tests} shows results of replay tests performed in the parking lot behind building 3L, as well as the building's entrance. As can be seen, the robot generally identifies the correct direction of the drift (except in the case of the $2^o$ right drift, where it mistook the drift's direction), but then it either fails to notice when it has crossed over the original path, or doesn't make corrections strong enough to effectively return to it.
+Figure~\ref{fig:replay_tests} shows results of replay tests performed in front of building 3L, for initial in-place turns of $2^o$, $5^o$ and $10^o$ (both to left and right).
+
+the parking lot behind building 3L, as well as the building's entrance. As can be seen, the robot generally identifies the correct direction of the drift (except in the case of the $2^o$ right drift, where it mistook the drift's direction), but then it either fails to notice when it has crossed over the original path, or doesn't make corrections strong enough to effectively return to it.
 
 \section{Conclusion}
 
