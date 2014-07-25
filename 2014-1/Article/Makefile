@@ -4,7 +4,7 @@ BIB=references.bib
 BLW=$(NAME)\ BW.pdf
 CLS=jsproceedings.cls
 DVI=$(NAME).dvi
-IMG=methods.pdf divs.pdf vector.pdf slide_cc.pdf selection.pdf entrance_3l_turn.pdf car_park_3l_turn.pdf corridor_3d_turn.pdf changes.pdf pedestrian.pdf environments.pdf clutter.pdf steering_2.pdf steering_5.pdf steering_10.pdf
+IMG=methods.pdf divs.pdf vector.pdf slide_cc.pdf selection.pdf entrance_3l_turn.pdf car_park_3l_turn.pdf corridor_3d_turn.pdf changes.pdf pedestrian.pdf environments.pdf clutter.pdf mismatch.pdf steering_2.pdf steering_5.pdf steering_10.pdf shift_problem.pdf
 PDF=$(NAME).pdf
 TEX=$(NAME).tex
 
