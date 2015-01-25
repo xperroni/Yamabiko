@@ -106,6 +106,14 @@ bw: $(BLW)
 %.pdf: %.odg
     unoconv -f pdf $<
 
+# Convert LibreOffice Text files to PDF
+%.pdf: %.odt
+    unoconv -f pdf $<
+
+# Convert Scalable Vector Graphics files to PDF
+%.pdf: %.svg
+    rsvg-convert -f pdf -o $@ $<
+
 # Convert JPG files to Encapsulated PS
 %.eps: %.jpg
     convert $< $@

@@ -19,6 +19,33 @@ along with Dejavu. If not, see <http://www.gnu.org/licenses/>.
 
 #include "scene_watershed.hpp"
 
+static cv::Mat saturation_mask(const cv::Mat &bgr) {
+    cv::Mat grays = colors::saturation(bgr);
+    cv::normalize(grays, grays, 0, 255, CV_MINMAX);
+
+    cv::Mat binary;
+    cv::threshold(grays, binary, 0, 255, cv::THRESH_BINARY + cv::THRESH_OTSU);
+
+    cv::Mat edges = filter::sobel(grays);
+    cv::threshold(edges, edges, 0, 255, cv::THRESH_BINARY_INV + cv::THRESH_OTSU);
+
+    cv::Mat centers;
+    binary.copyTo(centers, edges);
+
+    cv::Mat foreground;
+    cv::erode(centers, foreground, cv::Mat::ones(5, 5, CV_8U));
+
+    cv::Mat background;
+    cv::dilate(foreground, background, cv::Mat::ones(15, 15, CV_8U));
+    cv::threshold(background, background, 1, 64, cv::THRESH_BINARY_INV);
+
+    cv::Mat markers;
+    cv::Mat mask = foreground + background;
+    mask.convertTo(markers, CV_32S);
+
+    return markers;
+}
+
 static cv::Mat boundaries(const cv::Mat &bgr, const cv::Mat &markers) {
     int rows = bgr.rows;
     int cols = bgr.cols;
@@ -122,33 +149,6 @@ static void extract(
         bgr.copyTo(object, mask);
         views.append(object(roi));
     }
-}
-
-static cv::Mat saturation_mask(const cv::Mat &bgr) {
-    cv::Mat grays = colors::saturation(bgr);
-    cv::normalize(grays, grays, 0, 255, CV_MINMAX);
-
-    cv::Mat binary;
-    cv::threshold(grays, binary, 0, 255, cv::THRESH_BINARY + cv::THRESH_OTSU);
-
-    cv::Mat edges = filter::sobel(grays);
-    cv::threshold(edges, edges, 0, 255, cv::THRESH_BINARY_INV + cv::THRESH_OTSU);
-
-    cv::Mat centers;
-    binary.copyTo(centers, edges);
-
-    cv::Mat foreground;
-    cv::erode(centers, foreground, cv::Mat::ones(5, 5, CV_8U));
-
-    cv::Mat background;
-    cv::dilate(foreground, background, cv::Mat::ones(15, 15, CV_8U));
-    cv::threshold(background, background, 1, 64, cv::THRESH_BINARY_INV);
-
-    cv::Mat markers;
-    cv::Mat mask = foreground + background;
-    mask.convertTo(markers, CV_32S);
-
-    return markers;
 }
 
 dejavu::Scene_WATERSHED::Scene_WATERSHED(const cv::Mat &bgr, int lowest) {
