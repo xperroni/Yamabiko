@@ -1,12 +1,13 @@
-NAME=Image\ Stream\ Synchronization\ for\ Visual\ Navigation
+NAME=Visual\ Localization\ for\ Autonomous\ Navigation
 BBL=$(NAME).bbl
 BIB=references.bib
 BLW=$(NAME)\ BW.pdf
 CLS=jsproceedings.cls
 DVI=$(NAME).dvi
-IMG=
 PDF=$(NAME).pdf
 TEX=$(NAME).tex
+
+IMG=dis.pdf drift.pdf slide_cc.pdf selection_0.pdf selection_6.pdf indoors_teach.eps indoors_replay.eps outdoors_teach.eps outdoors_replay.eps cupido_01.eps cupido_02.eps cupido_03.eps cupido_04.eps shifts_indoors.pdf shifts_outdoors.pdf shifts_turn_left.pdf shifts_turn_right.pdf
 
 GS_PDF=-sDEVICE=pdfwrite
 GS_GRY=-sColorConversionStrategy=Gray -dProcessColorModel=/DeviceGray
