@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Clarus" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../Build/Debug/clarus" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../Build/Debug/Clarus/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="clarus/ndram" />
+					<Add directory="clarus/vision" />
+					<Add directory="clarus/n2ram" />
+				</Compiler>
+			</Target>
+			<Target title="Profile">
+				<Option output="../Build/Profile/clarus" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../Build/Profile/Clarus/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add directory="clarus/ndram" />
+					<Add directory="clarus/vision" />
+					<Add directory="clarus/n2ram" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="../Build/Release/clarus" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../Build/Release/Clarus/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-march=native" />
+					<Add directory="clarus/ndram" />
+					<Add directory="clarus/vision" />
+					<Add directory="clarus/n2ram" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-march=corei7-avx" />
+			<Add option="-Wall" />
+			<Add option="-Wno-comment" />
+			<Add directory="/usr/local/include" />
+			<Add directory="./" />
+			<Add directory="../" />
+			<Add directory="/usr/local/cuda-6.5/include" />
+		</Compiler>
+		<Unit filename="clarus/clarus.hpp" />
+		<Unit filename="clarus/core.hpp" />
+		<Unit filename="clarus/core/bag.cpp" />
+		<Unit filename="clarus/core/bag.hpp" />
+		<Unit filename="clarus/core/context.cpp" />
+		<Unit filename="clarus/core/context.hpp" />
+		<Unit filename="clarus/core/domain.cpp" />
+		<Unit filename="clarus/core/domain.hpp" />
+		<Unit filename="clarus/core/index.hpp" />
+		<Unit filename="clarus/core/list.hpp" />
+		<Unit filename="clarus/core/list_iterator.hpp" />
+		<Unit filename="clarus/core/list_iterator_const.hpp" />
+		<Unit filename="clarus/core/locker.cpp" />
+		<Unit filename="clarus/core/locker.hpp" />
+		<Unit filename="clarus/core/loop.cpp" />
+		<Unit filename="clarus/core/loop.hpp" />
+		<Unit filename="clarus/core/looper.cpp" />
+		<Unit filename="clarus/core/looper.hpp" />
+		<Unit filename="clarus/core/math.cpp" />
+		<Unit filename="clarus/core/math.hpp" />
+		<Unit filename="clarus/core/tuple.hpp" />
+		<Unit filename="clarus/io.hpp" />
+		<Unit filename="clarus/io/camera.cpp" />
+		<Unit filename="clarus/io/camera.hpp" />
+		<Unit filename="clarus/io/command.cpp" />
+		<Unit filename="clarus/io/command.hpp" />
+		<Unit filename="clarus/io/console.cpp" />
+		<Unit filename="clarus/io/console.hpp" />
+		<Unit filename="clarus/io/gnuplot.cpp" />
+		<Unit filename="clarus/io/gnuplot.hpp" />
+		<Unit filename="clarus/io/http.cpp" />
+		<Unit filename="clarus/io/http.hpp" />
+		<Unit filename="clarus/io/microphone.cpp" />
+		<Unit filename="clarus/io/microphone.hpp" />
+		<Unit filename="clarus/io/speech.cpp" />
+		<Unit filename="clarus/io/speech.hpp" />
+		<Unit filename="clarus/io/viewer.cpp" />
+		<Unit filename="clarus/io/viewer.hpp" />
+		<Unit filename="clarus/model.hpp" />
+		<Unit filename="clarus/model/ballot.hpp" />
+		<Unit filename="clarus/model/ballot_discrete.hpp" />
+		<Unit filename="clarus/model/ballot_weighted.hpp" />
+		<Unit filename="clarus/model/cloud.cpp" />
+		<Unit filename="clarus/model/cloud.hpp" />
+		<Unit filename="clarus/model/cluster.cpp" />
+		<Unit filename="clarus/model/cluster.hpp" />
+		<Unit filename="clarus/model/dbscan.cpp" />
+		<Unit filename="clarus/model/dbscan.hpp" />
+		<Unit filename="clarus/model/line2d.cpp" />
+		<Unit filename="clarus/model/line2d.hpp" />
+		<Unit filename="clarus/model/munkres.cpp" />
+		<Unit filename="clarus/model/munkres.hpp" />
+		<Unit filename="clarus/model/point.cpp" />
+		<Unit filename="clarus/model/point.hpp" />
+		<Unit filename="clarus/model/quadtree.hpp" />
+		<Unit filename="clarus/model/ransac.hpp" />
+		<Unit filename="clarus/n2ram/byte_string.cpp" />
+		<Unit filename="clarus/n2ram/byte_string.hpp" />
+		<Unit filename="clarus/n2ram/network.cpp" />
+		<Unit filename="clarus/n2ram/network.hpp" />
+		<Unit filename="clarus/n2ram/node.cpp" />
+		<Unit filename="clarus/n2ram/node.hpp" />
+		<Unit filename="clarus/vgram.hpp" />
+		<Unit filename="clarus/vgram/bitstring.cpp" />
+		<Unit filename="clarus/vgram/bitstring.hpp" />
+		<Unit filename="clarus/vgram/control.hpp" />
+		<Unit filename="clarus/vgram/control_delegate.cpp" />
+		<Unit filename="clarus/vgram/control_delegate.hpp" />
+		<Unit filename="clarus/vgram/control_focus.cpp" />
+		<Unit filename="clarus/vgram/control_focus.hpp" />
+		<Unit filename="clarus/vgram/control_mat.cpp" />
+		<Unit filename="clarus/vgram/control_mat.hpp" />
+		<Unit filename="clarus/vgram/control_range.cpp" />
+		<Unit filename="clarus/vgram/control_range.hpp" />
+		<Unit filename="clarus/vgram/control_rects.cpp" />
+		<Unit filename="clarus/vgram/control_rects.hpp" />
+		<Unit filename="clarus/vgram/control_select.cpp" />
+		<Unit filename="clarus/vgram/control_select.hpp" />
+		<Unit filename="clarus/vgram/control_slider.cpp" />
+		<Unit filename="clarus/vgram/control_slider.hpp" />
+		<Unit filename="clarus/vgram/control_window.cpp" />
+		<Unit filename="clarus/vgram/control_window.hpp" />
+		<Unit filename="clarus/vgram/layer.cpp" />
+		<Unit filename="clarus/vgram/layer.hpp" />
+		<Unit filename="clarus/vgram/layer_extensions.cpp" />
+		<Unit filename="clarus/vgram/layer_extensions.hpp" />
+		<Unit filename="clarus/vgram/layer_threaded.cpp" />
+		<Unit filename="clarus/vgram/layer_threaded.hpp" />
+		<Unit filename="clarus/vgram/layer_window.cpp" />
+		<Unit filename="clarus/vgram/layer_window.hpp" />
+		<Unit filename="clarus/vgram/layer_window_rl.cpp" />
+		<Unit filename="clarus/vgram/layer_window_rl.hpp" />
+		<Unit filename="clarus/vgram/network.cpp" />
+		<Unit filename="clarus/vgram/network.hpp" />
+		<Unit filename="clarus/vision.hpp" />
+		<Unit filename="clarus/vision/bayer.cpp" />
+		<Unit filename="clarus/vision/bayer.hpp" />
+		<Unit filename="clarus/vision/colors.cpp" />
+		<Unit filename="clarus/vision/colors.hpp" />
+		<Unit filename="clarus/vision/cvmat.cpp" />
+		<Unit filename="clarus/vision/cvmat.hpp" />
+		<Unit filename="clarus/vision/depths.cpp" />
+		<Unit filename="clarus/vision/depths.hpp" />
+		<Unit filename="clarus/vision/dither.cpp" />
+		<Unit filename="clarus/vision/dither.hpp" />
+		<Unit filename="clarus/vision/features.cpp" />
+		<Unit filename="clarus/vision/features.hpp" />
+		<Unit filename="clarus/vision/filters.cpp" />
+		<Unit filename="clarus/vision/filters.hpp" />
+		<Unit filename="clarus/vision/fourier.cpp" />
+		<Unit filename="clarus/vision/fourier.hpp" />
+		<Unit filename="clarus/vision/gaussian.cpp" />
+		<Unit filename="clarus/vision/gaussian.hpp" />
+		<Unit filename="clarus/vision/images.cpp" />
+		<Unit filename="clarus/vision/images.hpp" />
+		<Unit filename="clarus/vision/kernel.hpp" />
+		<Unit filename="clarus/vision/logpolar.cpp" />
+		<Unit filename="clarus/vision/logpolar.hpp" />
+		<Unit filename="clarus/vision/minchinton.cpp" />
+		<Unit filename="clarus/vision/minchinton.hpp" />
+		<Unit filename="clarus/vision/segment.cpp" />
+		<Unit filename="clarus/vision/segment.hpp" />
+		<Unit filename="clarus/vision/sparse.cpp" />
+		<Unit filename="clarus/vision/sparse.hpp" />
+		<Unit filename="clarus/vision/surfer.cpp" />
+		<Unit filename="clarus/vision/surfer.hpp" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

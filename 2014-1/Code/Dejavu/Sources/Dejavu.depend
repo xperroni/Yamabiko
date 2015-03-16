@@ -1,0 +1,406 @@
+# depslib dependency file v1.0
+1401935113 source:/home/helio/Roboken/Projects/Dejavu/Sources/contours.cpp
+	"contours.hpp"
+	<clarus/vision/images.hpp>
+
+1401856296 /home/helio/Roboken/Projects/Dejavu/Sources/contours.hpp
+	<clarus/core/list.hpp>
+	<opencv2/opencv.hpp>
+	<vector>
+
+1401856176 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/list.hpp
+	<clarus/core/types.hpp>
+	<boost/shared_ptr.hpp>
+	<opencv2/opencv.hpp>
+	<algorithm>
+	<cstddef>
+	<stdexcept>
+	<vector>
+	<clarus/core/list_iterator.hpp>
+	<clarus/core/list_iterator_const.hpp>
+
+1399276486 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/types.hpp
+	<sstream>
+	<string>
+
+1404200159 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/list_iterator.hpp
+
+1404200145 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/list_iterator_const.hpp
+
+1401250076 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/images.hpp
+	<opencv2/opencv.hpp>
+	<string>
+
+1405304153 source:/home/helio/Roboken/Projects/Dejavu/Sources/drift_search.cpp
+	"drift_search.hpp"
+	"contours.hpp"
+	<clarus/io/viewer.hpp>
+	<clarus/vision/colors.hpp>
+	<clarus/vision/filters.hpp>
+	<clarus/vision/sparse.hpp>
+
+1405304281 /home/helio/Roboken/Projects/Dejavu/Sources/drift_search.hpp
+	<cight/image_stream.hpp>
+	<cight/working_memory.hpp>
+	<clarus/core/list.hpp>
+	<clarus/model/point.hpp>
+	<string>
+
+1404798683 /home/helio/Roboken/Projects/Cight/Sources/cight/image_stream.hpp
+	<opencv2/opencv.hpp>
+	<map>
+	<string>
+
+1405304748 /home/helio/Roboken/Projects/Cight/Sources/cight/working_memory.hpp
+	<clarus/core/list.hpp>
+	<opencv2/opencv.hpp>
+	<string>
+
+1405550020 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model/point.hpp
+	<clarus/core/list.hpp>
+	<clarus/core/math.hpp>
+	<opencv2/opencv.hpp>
+	<iostream>
+
+1401861386 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/math.hpp
+	<clarus/core/list.hpp>
+	<boost/function.hpp>
+
+1386568237 /home/helio/Roboken/Projects/Clarus/Sources/clarus/io/viewer.hpp
+	<opencv2/opencv.hpp>
+	<string>
+
+1401404854 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/colors.hpp
+	<clarus/core/list.hpp>
+	<opencv2/opencv.hpp>
+
+1404205641 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/filters.hpp
+	<clarus/core/list.hpp>
+	<clarus/vision/kernel.hpp>
+	<boost/bind.hpp>
+	<boost/function.hpp>
+	<opencv2/opencv.hpp>
+	<set>
+	<string>
+
+1392969393 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/kernel.hpp
+	<clarus/vision/fourier.hpp>
+	<cstdarg>
+
+1404467464 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/fourier.hpp
+	<opencv2/opencv.hpp>
+
+1404208166 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/sparse.hpp
+	<clarus/core/list.hpp>
+	<clarus/model/point.hpp>
+	<opencv2/opencv.hpp>
+
+1406279968 source:/home/helio/Roboken/Projects/Dejavu/Sources/methods.cpp
+	"methods.hpp"
+	"contours.hpp"
+	<cight/image_stream.hpp>
+	<cight/transforms.hpp>
+	<cight/working_memory.hpp>
+	<clarus/model/point.hpp>
+	<clarus/vision/depths.hpp>
+	<clarus/vision/sparse.hpp>
+	<boost/filesystem.hpp>
+	<boost/filesystem/fstream.hpp>
+	<opencv2/opencv.hpp>
+	<algorithm>
+	<cmath>
+	<map>
+	<string>
+	<stdexcept>
+	<ctime>
+
+1405306395 /home/helio/Roboken/Projects/Dejavu/Sources/methods.hpp
+	<clarus/clarus.hpp>
+	<opencv2/opencv.hpp>
+	<string>
+
+1393806485 /home/helio/Roboken/Projects/Clarus/Sources/clarus/clarus.hpp
+	<clarus/core.hpp>
+	<clarus/io.hpp>
+	<clarus/model.hpp>
+	<clarus/vgram.hpp>
+	<clarus/vision.hpp>
+
+1401169071 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core.hpp
+	<clarus/core/bag.hpp>
+	<clarus/core/context.hpp>
+	<clarus/core/index.hpp>
+	<clarus/core/list.hpp>
+	<clarus/core/locker.hpp>
+	<clarus/core/loop.hpp>
+	<clarus/core/looper.hpp>
+	<clarus/core/math.hpp>
+	<clarus/core/tuple.hpp>
+	<clarus/core/types.hpp>
+
+1401169111 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/bag.hpp
+	<boost/shared_ptr.hpp>
+	<map>
+	<stdexcept>
+	<string>
+
+1401169121 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/context.hpp
+	<clarus/core/locker.hpp>
+	<clarus/core/bag.hpp>
+	<string>
+
+1401167040 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/locker.hpp
+	<boost/thread.hpp>
+
+1387518761 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/index.hpp
+	<clarus/core/tuple.hpp>
+
+1390970148 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/tuple.hpp
+	<cmath>
+	<cstddef>
+	<cstdarg>
+	<sstream>
+	<string>
+
+1401169144 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/loop.hpp
+	<clarus/core/context.hpp>
+	<boost/function.hpp>
+	<boost/shared_ptr.hpp>
+	<boost/thread.hpp>
+
+1400064066 /home/helio/Roboken/Projects/Clarus/Sources/clarus/core/looper.hpp
+	<clarus/core/context.hpp>
+	<clarus/core/loop.hpp>
+	<boost/function.hpp>
+	<boost/shared_ptr.hpp>
+	<boost/thread.hpp>
+
+1401169394 /home/helio/Roboken/Projects/Clarus/Sources/clarus/io.hpp
+	<clarus/io/camera.hpp>
+	<clarus/io/command.hpp>
+	<clarus/io/console.hpp>
+	<clarus/io/gnuplot.hpp>
+	<clarus/io/http.hpp>
+	<clarus/io/microphone.hpp>
+	<clarus/io/speech.hpp>
+	<clarus/io/viewer.hpp>
+
+1399880061 /home/helio/Roboken/Projects/Clarus/Sources/clarus/io/camera.hpp
+	<clarus/core/looper.hpp>
+	<opencv2/opencv.hpp>
+	<string>
+
+1400553577 /home/helio/Roboken/Projects/Clarus/Sources/clarus/io/command.hpp
+	<clarus/core/list.hpp>
+	<boost/shared_ptr.hpp>
+	<cstdio>
+	<string>
+
+1400564731 /home/helio/Roboken/Projects/Clarus/Sources/clarus/io/console.hpp
+	<clarus/io/command.hpp>
+	<cstdio>
+	<string>
+
+1401158395 /home/helio/Roboken/Projects/Clarus/Sources/clarus/io/gnuplot.hpp
+	<clarus/io/command.hpp>
+	<clarus/model/point.hpp>
+	<boost/function.hpp>
+	<cstdio>
+	<string>
+
+1401169186 /home/helio/Roboken/Projects/Clarus/Sources/clarus/io/http.hpp
+	<clarus/core/list.hpp>
+	<string>
+
+1401169198 /home/helio/Roboken/Projects/Clarus/Sources/clarus/io/microphone.hpp
+	<clarus/io/command.hpp>
+
+1401169209 /home/helio/Roboken/Projects/Clarus/Sources/clarus/io/speech.hpp
+	<string>
+
+1401159263 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model.hpp
+	<clarus/model/ballot.hpp>
+	<clarus/model/cloud.hpp>
+	<clarus/model/cluster.hpp>
+	<clarus/model/dbscan.hpp>
+	<clarus/model/line2d.hpp>
+	<clarus/model/munkres.hpp>
+	<clarus/model/point.hpp>
+	<clarus/model/quadtree.hpp>
+	<clarus/model/ransac.hpp>
+
+1387413783 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model/ballot.hpp
+	<clarus/model/ballot_discrete.hpp>
+	<clarus/model/ballot_weighted.hpp>
+
+1390904018 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model/ballot_discrete.hpp
+	<map>
+
+1387425645 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model/ballot_weighted.hpp
+	<map>
+
+1401169236 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model/cloud.hpp
+	<clarus/core/list.hpp>
+	<clarus/model/cluster.hpp>
+
+1401169245 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model/cluster.hpp
+	<clarus/core/list.hpp>
+	<clarus/model/point.hpp>
+
+1401169253 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model/dbscan.hpp
+	<clarus/core/list.hpp>
+	<clarus/model/cloud.hpp>
+
+1401169262 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model/line2d.hpp
+	<clarus/core/list.hpp>
+	<clarus/model/point.hpp>
+
+1399009871 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model/munkres.hpp
+	<clarus/core/list.hpp>
+	<clarus/model/point.hpp>
+	<opencv2/opencv.hpp>
+	<utility>
+
+1398655478 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model/quadtree.hpp
+	<boost/shared_ptr.hpp>
+	<opencv2/opencv.hpp>
+	<stdexcept>
+	<string>
+
+1398664913 /home/helio/Roboken/Projects/Clarus/Sources/clarus/model/ransac.hpp
+	<clarus/core/list.hpp>
+	<opencv2/opencv.hpp>
+
+1393806800 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vgram.hpp
+	<clarus/vgram/bitstring.hpp>
+	<clarus/vgram/intstring.hpp>
+	<clarus/vgram/layer.hpp>
+	<clarus/vgram/network.hpp>
+	<clarus/vgram/neuron.hpp>
+	<clarus/vgram/output.hpp>
+
+1386200054 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vgram/bitstring.hpp
+	<boost/shared_ptr.hpp>
+	<opencv2/opencv.hpp>
+	<bitset>
+
+1398655496 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vgram/intstring.hpp
+	<clarus/core/list.hpp>
+
+1394767373 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vgram/layer.hpp
+	<clarus/vgram/neuron.hpp>
+	<map>
+	<stdexcept>
+	<string>
+
+1390544508 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vgram/neuron.hpp
+	<clarus/vgram/output.hpp>
+	<boost/shared_ptr.hpp>
+	<limits>
+	<vector>
+	<cstdio>
+
+1393807068 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vgram/output.hpp
+	<boost/shared_ptr.hpp>
+	<limits>
+
+1395012848 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vgram/network.hpp
+	<clarus/vgram/layer.hpp>
+
+1401169432 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision.hpp
+	<clarus/vision/bayer.hpp>
+	<clarus/vision/colors.hpp>
+	<clarus/vision/depths.hpp>
+	<clarus/vision/dither.hpp>
+	<clarus/vision/filters.hpp>
+	<clarus/vision/fourier.hpp>
+	<clarus/vision/gaussian.hpp>
+	<clarus/vision/images.hpp>
+	<clarus/vision/kernel.hpp>
+	<clarus/vision/logpolar.hpp>
+	<clarus/vision/minchinton.hpp>
+	<clarus/vision/segment.hpp>
+	<clarus/vision/surfer.hpp>
+
+1389168222 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/bayer.hpp
+	<opencv2/opencv.hpp>
+	<string>
+
+1386200054 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/depths.hpp
+	<opencv2/opencv.hpp>
+	<string>
+
+1404181762 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/dither.hpp
+	<opencv2/opencv.hpp>
+
+1389162110 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/gaussian.hpp
+	<opencv2/opencv.hpp>
+
+1389257634 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/logpolar.hpp
+	<opencv2/opencv.hpp>
+
+1389170247 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/minchinton.hpp
+	<opencv2/opencv.hpp>
+
+1393810821 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/segment.hpp
+	<opencv2/opencv.hpp>
+
+1401169345 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/surfer.hpp
+	<clarus/core/list.hpp>
+	<clarus/model/point.hpp>
+	<opencv2/core/core.hpp>
+	<opencv2/features2d/features2d.hpp>
+	<opencv2/highgui/highgui.hpp>
+	<opencv2/nonfree/features2d.hpp>
+
+1404791986 /home/helio/Roboken/Projects/Cight/Sources/cight/transforms.hpp
+	<opencv2/opencv.hpp>
+
+1405305335 source:/home/helio/Roboken/Projects/Dejavu/Sources/viewer.cpp
+	"viewer.hpp"
+	<cight/image_stream.hpp>
+	<clarus/io/viewer.hpp>
+	<clarus/vision/colors.hpp>
+	<clarus/vision/cvmat.hpp>
+	<clarus/vision/filters.hpp>
+	<clarus/vision/sparse.hpp>
+	<string>
+
+1404182239 /home/helio/Roboken/Projects/Dejavu/Sources/viewer.hpp
+
+1404197145 /home/helio/Roboken/Projects/Clarus/Sources/clarus/vision/cvmat.hpp
+	<opencv2/opencv.hpp>
+	<cstdarg>
+	<string>
+
+1406265469 source:/home/helio/Roboken/Projects/Dejavu/Sources/main.cpp
+	"scene_split_merge.hpp"
+	"methods.hpp"
+	<boost/cstdint.hpp>
+	<limits>
+	"drift_search.hpp"
+	<iostream>
+	<fstream>
+	<cight/drift_estimator.hpp>
+	<cight/drift_reduce.hpp>
+	<cight/replay_stream.hpp>
+
+1405494902 /home/helio/Roboken/Projects/Cight/Sources/cight/drift_estimator.hpp
+	<cight/sensor_stream.hpp>
+	<cight/working_memory.hpp>
+	<clarus/core/list.hpp>
+	<string>
+
+1405501185 /home/helio/Roboken/Projects/Cight/Sources/cight/sensor_stream.hpp
+	<opencv2/opencv.hpp>
+
+1405416598 /home/helio/Roboken/Projects/Cight/Sources/cight/drift_reduce.hpp
+	<opencv2/opencv.hpp>
+	<boost/function.hpp>
+
+1405501174 /home/helio/Roboken/Projects/Cight/Sources/cight/replay_stream.hpp
+	<cight/image_stream.hpp>
+	<cight/sensor_stream.hpp>
+	<fstream>
+	<string>
+

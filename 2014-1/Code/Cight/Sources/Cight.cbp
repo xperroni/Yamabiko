@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Cight" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../Build/Debug/cight" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../Build/Debug/Objects/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../Build/Release/cight" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../Build/Release/Objects/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="/usr/local/include" />
+			<Add directory="../Sources" />
+			<Add directory="../../Clarus/Sources" />
+		</Compiler>
+		<Unit filename="cight/drift_estimator.cpp" />
+		<Unit filename="cight/drift_estimator.hpp" />
+		<Unit filename="cight/drift_recorder.cpp" />
+		<Unit filename="cight/drift_recorder.hpp" />
+		<Unit filename="cight/drift_reduce.cpp" />
+		<Unit filename="cight/drift_reduce.hpp" />
+		<Unit filename="cight/image_stream.cpp" />
+		<Unit filename="cight/image_stream.hpp" />
+		<Unit filename="cight/replay_stream.cpp" />
+		<Unit filename="cight/replay_stream.hpp" />
+		<Unit filename="cight/sensor_stream.hpp" />
+		<Unit filename="cight/transforms.cpp" />
+		<Unit filename="cight/transforms.hpp" />
+		<Unit filename="cight/working_memory.cpp" />
+		<Unit filename="cight/working_memory.hpp" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
