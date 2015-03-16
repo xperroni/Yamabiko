@@ -1,6 +1,0 @@
-Instead of comparing the sequences directly, compare how they evolve over time, and try to guess differences in position / direction from that.
-
-Compute a mosaic of correlation maps between every two images of a stream:
-1. Split image 1 and image 2 in a grid;
-2. Take a central square out of each grid form image 1, and cross-correlate to the corresponding grid cell from image 2;
-3. Assemble the correlation maps into a grid.
